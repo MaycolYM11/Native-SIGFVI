@@ -6,7 +6,6 @@ import {
   Button,
   FlatList,
   Image,
-  TouchableOpacity,
   Modal,
   StyleSheet,
 } from "react-native";
@@ -17,27 +16,31 @@ import EditProducto from "../modal/editar";
 const Tabla_Producto = () => {
   const [datos, setDatos] = useState([]);
   const [searchId, setSearchId] = useState("");
-  const [registerform, setRegisterform] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [editProductId, setEditProductId] = useState(null);
 
   const openModal = () => {
     setIsModalOpen(true);
-  };
-
-  const openModal2 = () => {
-    setIsModalOpen2(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
+  const openEditModal = (item) => {
+    setSelectedItem(item);
+    setEditProductId(item.ID_Producto_PK);
+  };
+
+  const closeEditModal = () => {
+    setEditProductId(null);
+  };
+
   const handleSearch = () => {
     if (searchId.trim() !== "") {
       axios
-        .get(`http://192.168.1.4:3001/producto/BuscarDatoPorId/${searchId}`)
+        .get(`http://192.168.0.5:3001/producto/BuscarDatoPorId/${searchId}`)
         .then((response) => {
           setDatos(response.data.datos ? response.data.datos : []);
         })
@@ -51,7 +54,7 @@ const Tabla_Producto = () => {
 
   const consulta = () => {
     axios
-      .get("http://192.168.1.4:3001/producto/Datos")
+      .get("http://192.168.0.5:3001/producto/Datos")
       .then((response) => {
         console.log("Datos recibidos:", response.data.datos);
         setDatos(response.data.datos);
@@ -68,7 +71,7 @@ const Tabla_Producto = () => {
 
   const confirmDelete = (id) => {
     axios
-      .delete(`http://192.168.1.4:3001/producto/BorrarDatos/${id}`)
+      .delete(`http://192.168.0.5:3001/producto/BorrarDatos/${id}`)
       .then(() => {
         console.log("Dato eliminado correctamente");
         consulta();
@@ -126,7 +129,7 @@ const Tabla_Producto = () => {
                   marginTop: 10,
                 }}
               >
-                <Button title="Editar" onPress={() => openModal2(item)} />
+                <Button title="Editar" onPress={() => openEditModal(item)} />
                 <Button
                   title="Borrar"
                   onPress={() => confirmDelete(item.ID_Producto_PK)}
@@ -136,15 +139,18 @@ const Tabla_Producto = () => {
           )}
         />
       </View>
-      <Modal visible={isModalOpen2} animationType="slide">
-        <View style={styles.modalContainer}>
+
+      <Modal visible={editProductId !== null} >
+        <View>
           <EditProducto
-            closeModal={closeModal}
+            closeModal={closeEditModal}
             datos={selectedItem}
-            reConsulta={consulta}
+            isOpen={editProductId !== null}
           />
         </View>
       </Modal>
+
+
     </View>
   );
 };
@@ -186,11 +192,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginTop: 10,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  // modalContainer: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
 });
 
 export default Tabla_Producto;

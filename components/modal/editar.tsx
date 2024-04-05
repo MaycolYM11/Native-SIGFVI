@@ -10,20 +10,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const EditProducto = ({ closeModal, datos }) => {
-    {/** 
-  const [nombre, setNombre] = useState(datos.nombre || "");
-  const [descripcion, setDescripcion] = useState(datos.descripcion || "");
-  const [precioCompra, setPrecioC] = useState(datos.precioCompra || "");
-  const [precioVenta, setPrecioV] = useState(datos.precioVenta || "");
-  const [estado, setEstado] = useState("");
-  const [con, setCon] = useState(true);
-  */}
+const EditProducto = ({ closeModal, datos, isOpen }) => {
+  console.log('Modal abierto');
+  console.log('Los datos seleccionados son: ', datos);
+  const [nombre, setNombre] = useState(datos.Nombre_Producto || "");
+  const [descripcion, setDescripcion] = useState(datos.Descripcion || "");
+  const [precioCompra, setPrecioC] = useState(datos.Precio_Proveedor || "");
+  const [precioVenta, setPrecioV] = useState(datos.Precio_Venta || "");
+  const [estado, setEstado] = useState(datos.ID_Estado_FK || "1");
+  const [con, setCon] = useState(true); // Estado para controlar la lógica de confirmación
 
   const editarRegistro = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:3001/producto/ActualizarProducto/${id}`,
+        `http://192.168.0.5:localhost:3001/producto/ActualizarProducto/${id}`,
         {
           Nombre_Producto: nombre,
           Descripcion: descripcion,
@@ -32,12 +32,12 @@ const EditProducto = ({ closeModal, datos }) => {
           ID_Estado_FK: estado,
         }
       );
-      setCon(true);
+      setCon(true); // Actualiza el estado a true si la petición fue exitosa
       consulta();
       console.log(response.data);
     } catch (err) {
       console.error("No se pudo hacer la petición put", err);
-      setCon(false);
+      setCon(false); // Actualiza el estado a false si hubo un error en la petición
     }
   };
 
@@ -60,7 +60,7 @@ const EditProducto = ({ closeModal, datos }) => {
   };
 
   return (
-    <Modal visible={true} animationType="slide">
+    <Modal visible={isOpen} animationType="slide">
       <View style={styles.container}>
         <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
           <Text style={styles.closeText}>X</Text>
@@ -69,30 +69,31 @@ const EditProducto = ({ closeModal, datos }) => {
         <TextInput
           style={styles.input}
           placeholder="Nombre"
+          value={nombre}
           onChangeText={(text) => setNombre(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Descripción"
-      
+          value={descripcion}
           onChangeText={(text) => setDescripcion(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Precio Compra"
-          
+          value={precioCompra}
           onChangeText={(text) => setPrecioC(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Precio Venta"
-        
+          value={precioVenta}
           onChangeText={(text) => setPrecioV(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Estado"
-          
+          value={estado}
           onChangeText={(text) => setEstado(text)}
         />
         <Button title="Guardar Cambios" onPress={handleSubmit} />

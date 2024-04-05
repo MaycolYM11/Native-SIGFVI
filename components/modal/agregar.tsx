@@ -40,7 +40,7 @@ const RegisterProd = ({ isOpen, closeModal, reConsulta }) => {
 
 
       const response = await axios.post(
-        "http://192.168.1.4:3001/producto/AgregarProducto",
+        "http://192.168.0.5:3001/producto/AgregarProducto",
         {
           ID_Producto_PK: formatoId,
           ID_Tipo_Producto_FK: "3",
@@ -62,7 +62,7 @@ const RegisterProd = ({ isOpen, closeModal, reConsulta }) => {
   const idDuplicado = async (id) => {
     try {
       const response = await axios.get(
-        `http://192.168.1.4:3001/producto/VerificarDuplicado/${id}`
+        `http://192.168.0.5:3001/producto/VerificarDuplicado/${id}`
       );
       return response.data.duplicate;
     } catch (error) {
