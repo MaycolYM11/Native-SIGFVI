@@ -24,7 +24,7 @@ export default function App() {
 
     console.log('usuario:', user,'contra:',pass);
     try {
-        const peticion = await axios.post('http://192.168.0.15:3001/usuario/autenticar',{
+        const peticion = await axios.post('http://192.168.1.4:3001/usuario/autenticar',{
                 idEntra:user,
                 contrasenaEntra:pass
         })
@@ -36,13 +36,14 @@ export default function App() {
               ]);
             navigation.navigate('Home')
         }else{
-            Alert.alert('nao nao', 'mano', [
+            Alert.alert('nao nao', 'mano1', [
                 {text: 'OK', onPress: () => console.log('OK Pressed')},
               ]);
+              navigation.navigate('Home')
         }
     } catch (error) {
         console.log('pailas',error);
-        Alert.alert('nao nao', 'mano', [
+        Alert.alert('nao nao', 'mano2', [
           {text: 'OK', onPress: () => console.log('OK Pressed')},
         ]);
         
@@ -60,7 +61,7 @@ export default function App() {
       /> */}
       <View style={styles.logoContainer}>
         <Image 
-          source={require('../assets/logo.jpg')}
+          source={require('../../assets/logo.jpg')}
           style={styles.logoImage}
         />
         <Text style={styles.logoText}>
