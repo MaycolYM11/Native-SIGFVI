@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import {
   View,
@@ -10,54 +9,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const EditProducto = ({ closeModal, datos }) => {
-    {/** 
-  const [nombre, setNombre] = useState(datos.nombre || "");
-  const [descripcion, setDescripcion] = useState(datos.descripcion || "");
-  const [precioCompra, setPrecioC] = useState(datos.precioCompra || "");
-  const [precioVenta, setPrecioV] = useState(datos.precioVenta || "");
-  const [estado, setEstado] = useState("");
-  const [con, setCon] = useState(true);
-  */}
+const EditProducto = ({ isOpen, closeModal, datos }) => {
+  const [nombre, setNombre] = useState(datos.Nombre_Producto || "");
+  const [descripcion, setDescripcion] = useState(datos.Descripcion || "");
+  const [precioCompra, setPrecioC] = useState(datos.Precio_Proveedor || "");
+  const [precioVenta, setPrecioV] = useState(datos.Precio_Venta || "");
+  const [estado, setEstado] = useState(datos.Estado || "");
 
   const editarRegistro = async (id) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:3001/producto/ActualizarProducto/${id}`,
-        {
-          Nombre_Producto: nombre,
-          Descripcion: descripcion,
-          Precio_Proveedor: precioCompra,
-          Precio_Venta: precioVenta,
-          ID_Estado_FK: estado,
-        }
-      );
-      setCon(true);
-      consulta();
-      console.log(response.data);
-    } catch (err) {
-      console.error("No se pudo hacer la petición put", err);
-      setCon(false);
-    }
-  };
-
-  const consulta = () => {
-    datos.reConsulta();
+    // Tu lógica de actualización aquí
   };
 
   const handleSubmit = () => {
-    handleClick();
+    editarRegistro(datos.ID_Producto_PK);
+    closeModal();
   };
 
-  const handleClick = () => {
-    if (con) {
-      // Aquí puedes implementar la lógica para mostrar una alerta o mensaje de éxito
-      editarRegistro(datos.id);
-      closeModal();
-    } else {
-      // Aquí puedes implementar la lógica para mostrar una alerta o mensaje de error
-    }
-  };
+  if (!isOpen) return null;
 
   return (
     <Modal visible={true} animationType="slide">
@@ -69,30 +37,31 @@ const EditProducto = ({ closeModal, datos }) => {
         <TextInput
           style={styles.input}
           placeholder="Nombre"
+          value={nombre}
           onChangeText={(text) => setNombre(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Descripción"
-      
+          value={descripcion}
           onChangeText={(text) => setDescripcion(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Precio Compra"
-          
+          value={precioCompra}
           onChangeText={(text) => setPrecioC(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Precio Venta"
-        
+          value={precioVenta}
           onChangeText={(text) => setPrecioV(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Estado"
-          
+          value={estado}
           onChangeText={(text) => setEstado(text)}
         />
         <Button title="Guardar Cambios" onPress={handleSubmit} />

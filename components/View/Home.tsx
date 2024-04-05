@@ -19,15 +19,16 @@ const Tabla_Producto = () => {
   const [searchId, setSearchId] = useState("");
   const [registerform, setRegisterform] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  const openModal2 = () => {
-    setIsModalOpen2(true);
+  const openModalEdit = (item) => {
+    setSelectedItem(item); 
+    navigation.navigate('EditarProducto', { item });
   };
 
   const closeModal = () => {
@@ -126,25 +127,21 @@ const Tabla_Producto = () => {
                   marginTop: 10,
                 }}
               >
-                <Button title="Editar" onPress={() => openModal2(item)} />
+                <Button title="Editar" onPress={() => openModalEdit(item)} />
                 <Button
                   title="Borrar"
                   onPress={() => confirmDelete(item.ID_Producto_PK)}
                 />
               </View>
+              <EditProducto
+                isOpen={isModalOpenEdit}
+                closeModal={closeModal}
+                reConsulta={consulta}
+              />
             </View>
           )}
         />
       </View>
-      <Modal visible={isModalOpen2} animationType="slide">
-        <View style={styles.modalContainer}>
-          <EditProducto
-            closeModal={closeModal}
-            datos={selectedItem}
-            reConsulta={consulta}
-          />
-        </View>
-      </Modal>
     </View>
   );
 };
