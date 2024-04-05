@@ -2,8 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Login from './components/Login'
-import Home from './components/Home'
+import Login from './components/View/Login'
+import Home from './components/View/Home'
 
 
  const Stack= createStackNavigator();
