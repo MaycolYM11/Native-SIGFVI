@@ -40,15 +40,15 @@ const RegisterProd = ({ isOpen, closeModal, reConsulta }) => {
 
 
       const response = await axios.post(
-        "http://192.168.0.5:3001/producto/AgregarProducto",
+        "http://192.168.0.6:3001/producto/AgregarProducto",
         {
           ID_Producto_PK: formatoId,
-          ID_Tipo_Producto_FK: "3",
+          ID_Tipo_Producto_FK: tProducto,
           Nombre_Producto: nombreMayus,
           Descripcion: descripcionCompleta,
           Precio_Proveedor: precioCompra,
           Precio_Venta: precioVenta,
-          ID_Estado_FK: "1",
+          ID_Estado_FK: estado,
         }
       );
       reConsulta();
@@ -62,7 +62,7 @@ const RegisterProd = ({ isOpen, closeModal, reConsulta }) => {
   const idDuplicado = async (id) => {
     try {
       const response = await axios.get(
-        `http://192.168.0.5:3001/producto/VerificarDuplicado/${id}`
+        `http://192.168.0.6:3001/producto/VerificarDuplicado/${id}`
       );
       return response.data.duplicate;
     } catch (error) {
@@ -97,12 +97,12 @@ const RegisterProd = ({ isOpen, closeModal, reConsulta }) => {
   ];
 
   const [nombre, setNombre] = useState("");
-  const [tProducto, setTproducto] = useState("");
+  const [tProducto, setTproducto] = useState("1");
   const [descripcion, setDescripcion] = useState("");
   const [medida, setMedida] = useState("");
   const [precioCompra, setPrecioCompra] = useState("");
   const [precioVenta, setPrecioVenta] = useState("");
-  const [estado, setEstado] = useState("");
+  const [estado, setEstado] = useState("1");
 
   console.log(nombre);
   console.log(selectedTipoProducto);

@@ -24,7 +24,7 @@ export default function App() {
 
     console.log('usuario:', user,'contra:',pass);
     try {
-        const peticion = await axios.post('http://192.168.0.5:3001/usuario/autenticar',{
+        const peticion = await axios.post('http://192.168.0.6:3001/usuario/autenticar',{
                 idEntra:user,
                 contrasenaEntra:pass
         })
