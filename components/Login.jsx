@@ -158,11 +158,15 @@ const styles = StyleSheet.create({
   logoContainer: {
       position: 'absolute',
       alignSelf: 'center',
-      top: '15%',
+      justifyContent: 'center',
+      top: '15%'
   },
   logoImage: {
       width: 100,
       height: 100,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      borderRadius: 50
   },
   logoText: {
       color: 'white',
