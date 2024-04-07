@@ -4,6 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Login from './components/View/Login'
 import Home from './components/View/Home'
+import HomeDeudores from './components/View/Home_Deudor'
+import EditarDeudor from './components/View/actualizarDeudor'
 
 
  const Stack= createStackNavigator();
@@ -16,7 +18,8 @@ function App() {
         initialRouteName='Login'
       >
         <Stack.Screen name='Login' component={Login} />
-        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='Home' component={HomeDeudores} />
+        <Stack.Screen name='EditarDeudor' component={EditarDeudor} />
 
       </Stack.Navigator>
     </NavigationContainer>
