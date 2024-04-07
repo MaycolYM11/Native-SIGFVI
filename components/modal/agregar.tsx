@@ -39,8 +39,13 @@ const RegisterProd = ({ isOpen, closeModal, reConsulta }) => {
       const formatoId = await generarId(idPre);
 
 
+<<<<<<< HEAD
       const response = await axios.post(
         "http://192.168.0.6:3001/producto/AgregarProducto",
+=======
+      const response =  axios.post(
+        "http://192.168.1.4:3001/producto/AgregarProducto",
+>>>>>>> 7ebc2332f83c4ce49066b31ef7cb5cafa565417c
         {
           ID_Producto_PK: formatoId,
           ID_Tipo_Producto_FK: tProducto,

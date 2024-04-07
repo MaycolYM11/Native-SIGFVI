@@ -17,6 +17,10 @@ const Tabla_Producto = () => {
   const [datos, setDatos] = useState([]);
   const [searchId, setSearchId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+<<<<<<< HEAD:components/View/Home.jsx
+=======
+  const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+>>>>>>> 7ebc2332f83c4ce49066b31ef7cb5cafa565417c:components/View/Home.tsx
   const [selectedItem, setSelectedItem] = useState(null);
   const [editProductId, setEditProductId] = useState(null);
 
@@ -24,6 +28,14 @@ const Tabla_Producto = () => {
     setIsModalOpen(true);
   };
 
+<<<<<<< HEAD:components/View/Home.jsx
+=======
+  const openModalEdit = (item) => {
+    setSelectedItem(item); 
+    navigation.navigate('EditarProducto', { item });
+  };
+
+>>>>>>> 7ebc2332f83c4ce49066b31ef7cb5cafa565417c:components/View/Home.tsx
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -129,16 +141,26 @@ const Tabla_Producto = () => {
                   marginTop: 10,
                 }}
               >
+<<<<<<< HEAD:components/View/Home.jsx
                 <Button title="Editar" onPress={() => openEditModal(item)} />
+=======
+                <Button title="Editar" onPress={() => openModalEdit(item)} />
+>>>>>>> 7ebc2332f83c4ce49066b31ef7cb5cafa565417c:components/View/Home.tsx
                 <Button
                   title="Borrar"
                   onPress={() => confirmDelete(item.ID_Producto_PK)}
                 />
               </View>
+              <EditProducto
+                isOpen={isModalOpenEdit}
+                closeModal={closeModal}
+                reConsulta={consulta}
+              />
             </View>
           )}
         />
       </View>
+<<<<<<< HEAD:components/View/Home.jsx
 
       <Modal visible={editProductId !== null} >
         <View>
@@ -151,6 +173,8 @@ const Tabla_Producto = () => {
       </Modal>
 
 
+=======
+>>>>>>> 7ebc2332f83c4ce49066b31ef7cb5cafa565417c:components/View/Home.tsx
     </View>
   );
 };
