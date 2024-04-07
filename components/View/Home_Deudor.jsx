@@ -22,9 +22,19 @@ const DeudoresHome = () => {
     // Tu lógica para volver
   };
 
-  const handleEditarDeudor = (deudor) => {
-    navigation.navigate('EditarDeudor', { deudor });
+  const actualizarDeudores = async () => {
+    try {
+      const data = await BUSCAR_DEUDORES();
+      setDeudores(data);
+    } catch (error) {
+      console.error('Error al actualizar los deudores:', error);
+    }
   };
+
+  const handleEditarDeudor = (deudor) => {
+    navigation.navigate('EditarDeudor', { deudor, consulta: actualizarDeudores });
+  };
+ 
 
   const getColorStyle = (estado) => {
     if (estado === 'activo') {
@@ -54,13 +64,17 @@ const DeudoresHome = () => {
           <Text style={{ marginBottom: 10 }}>En este panel es el encargado de gestionar los Deudores.</Text>
           <View>
             <TextInput
-              placeholder="Buscar productos"
+              placeholder="Buscar Deudor por ID o Nombre."
               style={styles.searchInput}
             />
-            <Button title="Buscar" />
+            <TouchableOpacity onPress={handleVolver}>
+              <Text style={styles.buscarDeudor}>Buscar Deudor</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.containerButton}>
-            <Button title="Agregar Producto" />
+            <TouchableOpacity onPress={handleVolver}>
+              <Text style={styles.volverText}>Agregar Deudor</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.BarMini2}></View>
         </View>
@@ -139,12 +153,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#06185c',
   },
+  buscarDeudor: {
+    padding: 10,
+    fontSize: 16,
+    color: '#ffffff',
+    borderRadius: 10,
+    backgroundColor: '#2391ef',
+    textAlign: 'center',
+  },
   volverText: {
     padding: 10,
     fontSize: 16,
-    color: '#f5ebe0',
+    color: '#ffffff',
     borderRadius: 10,
     backgroundColor: '#ff9414',
+    textAlign: 'center'
   },
   card: {
     backgroundColor: '#fff',

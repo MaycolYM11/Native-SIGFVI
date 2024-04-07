@@ -66,17 +66,17 @@ export default function App() {
   return (
     <AlertNotificationRoot>
       <View style={styles.container}>
-        <LinearGradient
-          colors={['#f9de07','red']}
+        {/* <LinearGradient
+          colors={['#0b0f17','#42658f']}
           style={styles.container}
-        />
+        /> */}
         {/* <Image
           source={require( './assets/fondo.jpg')}
           style={styles.imageBackground}
         /> */}
         <View style={styles.logoContainer}>
           <Image 
-            source={require('../assets/logo.jpg')}
+            source={require('../../assets/logo.jpg')}
             style={styles.logoImage}
           />
           <Text style={styles.logoText}>
@@ -112,7 +112,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#ffaf46',
+    backgroundColor: '#0b0f17',
   },
   imageBackground: {
       width: '100%',
@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
   form: {
       width: '100%',
       height: '40%',
-      backgroundColor: '#363631',
+      opacity: 1,
+      backgroundColor: '#121926',
       position: 'absolute',
       bottom: 0,
       borderTopLeftRadius: 40,
@@ -159,10 +160,13 @@ const styles = StyleSheet.create({
       position: 'absolute',
       alignSelf: 'center',
       top: '15%',
+      alignItems: 'center',
+      justifyContent: 'center',
   },
   logoImage: {
       width: 100,
       height: 100,
+      borderRadius: 50,
   },
   logoText: {
       color: 'white',
