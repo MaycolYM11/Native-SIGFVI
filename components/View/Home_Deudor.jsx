@@ -22,6 +22,10 @@ const DeudoresHome = () => {
     // Tu lógica para volver
   };
 
+  const irRegistrar = () =>{
+    navigation.navigate('Register',{consulta: actualizarDeudores})
+  }
+
   const actualizarDeudores = async () => {
     try {
       const data = await BUSCAR_DEUDORES();
@@ -72,7 +76,7 @@ const DeudoresHome = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.containerButton}>
-            <TouchableOpacity onPress={handleVolver}>
+            <TouchableOpacity onPress={irRegistrar}>
               <Text style={styles.volverText}>Agregar Deudor</Text>
             </TouchableOpacity>
           </View>
@@ -96,7 +100,7 @@ const DeudoresHome = () => {
           </TouchableOpacity>
         ))}
         <View style={styles.header2}>
-          <TouchableOpacity onPress={handleVolver}>
+          <TouchableOpacity onPress={()=>{navigation.navigate('Login')}}>
             <Text style={styles.volverText}>Cerrar Sesión</Text>
           </TouchableOpacity>
         </View>
