@@ -92,8 +92,6 @@ const EditarDeudor = ({ route }) => {
         );
       };
       
-      
-
     return (
         <AlertNotificationRoot>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
