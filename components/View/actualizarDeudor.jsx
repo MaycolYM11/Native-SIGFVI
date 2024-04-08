@@ -25,7 +25,6 @@ const EditarDeudor = ({ route }) => {
     console.log('Id del deudor seleccionado: ', idDeudor);
 
     const handleGuardarCambios = () => {
-        // Aquí puedes enviar los datos actualizados al servidor
         console.log('Guardando cambios...');
         Dialog.show({
             type: ALERT_TYPE.SUCCESS,
@@ -66,8 +65,6 @@ const EditarDeudor = ({ route }) => {
         );
       };
       
-      
-
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>

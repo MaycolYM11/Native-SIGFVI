@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { BUSCAR_DEUDORES } from '../../Funciones/deudor';
+import { BUSCAR_DEUDORES, BUSCAR_DEUDORES_PERSONALIZADO } from '../../Funciones/deudor';
 
 const DeudoresHome = () => {
   const [deudores, setDeudores] = useState([]);
   const navigation = useNavigation();
+  const [busqueda, setBusqueda] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,9 +20,22 @@ const DeudoresHome = () => {
 
   console.log('Esto me trae los deudores: ', deudores);
 
-  const handleVolver = () => {
-    // Tu lógica para volver
+
+  const busquedaPersonalizada = async () => {
+    try {
+      if (busqueda.trim() === '') {
+        const data = await BUSCAR_DEUDORES();
+        setDeudores(data);
+      } else {
+        const data = await BUSCAR_DEUDORES_PERSONALIZADO(busqueda, busqueda, busqueda);
+        setDeudores(data);
+      }
+    } catch (error) {
+      console.error('Error al buscar deudores:', error);
+      setDeudores([]);
+    }
   };
+  
 
   const actualizarDeudores = async () => {
     try {
@@ -31,25 +46,10 @@ const DeudoresHome = () => {
     }
   };
 
+  const handleVolver = async () => {}
+
   const handleEditarDeudor = (deudor) => {
     navigation.navigate('EditarDeudor', { deudor, consulta: actualizarDeudores });
-  };
- 
-
-  const getColorStyle = (estado) => {
-    if (estado === 'activo') {
-      return {
-        color: 'white',
-        backgroundColor: 'green',
-        padding: 5,
-      };
-    } else if (estado === 'inactivo') {
-      return {
-        color: 'white',
-        backgroundColor: 'red',
-        padding: 5,
-      };
-    }
   };
 
 
@@ -66,8 +66,10 @@ const DeudoresHome = () => {
             <TextInput
               placeholder="Buscar Deudor por ID o Nombre."
               style={styles.searchInput}
+              onChangeText={(text) => setBusqueda(text)}
+              value={busqueda}
             />
-            <TouchableOpacity onPress={handleVolver}>
+            <TouchableOpacity onPress={busquedaPersonalizada}>
               <Text style={styles.buscarDeudor}>Buscar Deudor</Text>
             </TouchableOpacity>
           </View>
