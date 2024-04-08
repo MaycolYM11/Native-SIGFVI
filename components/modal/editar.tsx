@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import {
   View,
@@ -10,13 +9,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+<<<<<<< HEAD
 const EditProducto = ({ closeModal, datos, isOpen }) => {
   console.log('Modal abierto');
   console.log('Los datos seleccionados son: ', datos);
+=======
+const EditProducto = ({ isOpen, closeModal, datos }) => {
+>>>>>>> 7ebc2332f83c4ce49066b31ef7cb5cafa565417c
   const [nombre, setNombre] = useState(datos.Nombre_Producto || "");
   const [descripcion, setDescripcion] = useState(datos.Descripcion || "");
   const [precioCompra, setPrecioC] = useState(datos.Precio_Proveedor || "");
   const [precioVenta, setPrecioV] = useState(datos.Precio_Venta || "");
+<<<<<<< HEAD
   const [estado, setEstado] = useState(datos.ID_Estado_FK || "1");
   const [con, setCon] = useState(true); // Estado para controlar la lógica de confirmación
 
@@ -43,21 +47,20 @@ const EditProducto = ({ closeModal, datos, isOpen }) => {
 
   const consulta = () => {
     datos.reConsulta();
+=======
+  const [estado, setEstado] = useState(datos.Estado || "");
+
+  const editarRegistro = async (id) => {
+    // Tu lógica de actualización aquí
+>>>>>>> 7ebc2332f83c4ce49066b31ef7cb5cafa565417c
   };
 
   const handleSubmit = () => {
-    handleClick();
+    editarRegistro(datos.ID_Producto_PK);
+    closeModal();
   };
 
-  const handleClick = () => {
-    if (con) {
-      // Aquí puedes implementar la lógica para mostrar una alerta o mensaje de éxito
-      editarRegistro(datos.id);
-      closeModal();
-    } else {
-      // Aquí puedes implementar la lógica para mostrar una alerta o mensaje de error
-    }
-  };
+  if (!isOpen) return null;
 
   return (
     <Modal visible={isOpen} animationType="slide">

@@ -3,16 +3,8 @@ import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Alert, Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
-
-const createTwoButtonAlert = () =>
-    Alert.alert('Alert Title', 'My Alert Msg', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
-    ]);
+import { LinearGradient } from 'expo-linear-gradient';
+import { ALERT_TYPE, AlertNotificationRoot, Dialog, Toast } from 'react-native-alert-notification';
 
 export default function App() {
   const [user,setUser]=useState('');
@@ -31,21 +23,39 @@ export default function App() {
         console.log('autenticacion done');
         console.log('esta es la respuesta del server → ',peticion.data);
         if(peticion.data.ingreso){
-            Alert.alert('Inicio de Sesion', 'Exitoso', [
-                {text: 'OK', onPress: () => console.log('OK Pressed')},
-              ]);
-            navigation.navigate('Home')
+            // Alert.alert('Inicio de Sesion', 'Exitoso', [
+            //     {text: 'OK', onPress: () => console.log('OK Pressed')},
+            //   ]);
+            Dialog.show({
+              type: ALERT_TYPE.SUCCESS,
+              title: `Bienvenido ${peticion.data.name}`,
+              textBody: 'Sesion iniciada con exito',
+              autoClose: false,
+              onHide: ()=>navigation.navigate('Home'),
+              button: 'OK'
+            });
+            
         }else{
-            Alert.alert('nao nao', 'mano1', [
-                {text: 'OK', onPress: () => console.log('OK Pressed')},
-              ]);
-              navigation.navigate('Home')
+            // Alert.alert('nao nao', 'mano', [
+            //     {text: 'OK', onPress: () => console.log('OK Pressed')},
+            //   ]);
+            Dialog.show({
+              type: ALERT_TYPE.DANGER,
+              title: 'Credenciales incorrectas',
+              textBody: 'Verifique su usuario o contraseña',
+              autoClose: false,
+              button: 'OK'
+            });
         }
     } catch (error) {
         console.log('pailas',error);
-        Alert.alert('nao nao', 'mano2', [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ]);
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: 'Credenciales incorrectas',
+          textBody: 'Verifique su usuario o contraseña',
+          autoClose: false,
+          button: 'OK'
+        });
         
     }
     
@@ -54,46 +64,55 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      {/* <Image
-        source={require( './assets/fondo.jpg')}
-        style={styles.imageBackground}
-      /> */}
-      <View style={styles.logoContainer}>
-        <Image 
-          source={require('../../assets/logo.jpg')}
-          style={styles.logoImage}
-        />
-        <Text style={styles.logoText}>
-          SIGFVI Tiendecita Alemana
-        </Text>
+    <AlertNotificationRoot>
+      <View style={styles.container}>
+        {/* <LinearGradient
+          colors={['#0b0f17','#42658f']}
+          style={styles.container}
+        /> */}
+        {/* <Image
+          source={require( './assets/fondo.jpg')}
+          style={styles.imageBackground}
+        /> */}
+        <View style={styles.logoContainer}>
+          <Image 
+            source={require('../../assets/logo.jpg')}
+            style={styles.logoImage}
+          />
+          <Text style={styles.logoText}>
+            SIGFVI
+          </Text>
+          <Text style={styles.logoText}>
+            Tiendecita Alemana
+          </Text>
+        </View>
+        <View style={styles.form} >
+          <Text>
+            User
+          </Text>
+          <TextInput 
+            onChangeText={setUser}
+            value={user}
+          />
+          <Text>
+            Contraseña
+          </Text>
+          <TextInput 
+            secureTextEntry
+            onChangeText={setPass}
+            value={pass}
+          />
+          <Button title='Ingresar' onPress={handleLogin}/>
+        </View>
       </View>
-      <View style={styles.form} >
-        <Text>
-          User
-        </Text>
-        <TextInput 
-          onChangeText={setUser}
-          value={user}
-        />
-        <Text>
-          Contraseña
-        </Text>
-        <TextInput 
-          secureTextEntry
-          onChangeText={setPass}
-          value={pass}
-        />
-        <Button title='Ingresar' onPress={handleLogin}/>
-      </View>
-    </View>
+    </AlertNotificationRoot>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffaf46',
+    backgroundColor: '#0b0f17',
   },
   imageBackground: {
       width: '100%',
@@ -101,10 +120,18 @@ const styles = StyleSheet.create({
       opacity: 0.7,
       bottom: '30%',
   },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 300,
+  },
   form: {
       width: '100%',
       height: '40%',
-      backgroundColor: 'gray',
+      opacity: 1,
+      backgroundColor: '#121926',
       position: 'absolute',
       bottom: 0,
       borderTopLeftRadius: 40,
@@ -133,10 +160,13 @@ const styles = StyleSheet.create({
       position: 'absolute',
       alignSelf: 'center',
       top: '15%',
+      alignItems: 'center',
+      justifyContent: 'center',
   },
   logoImage: {
       width: 100,
       height: 100,
+      borderRadius: 50,
   },
   logoText: {
       color: 'white',

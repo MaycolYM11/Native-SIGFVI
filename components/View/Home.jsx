@@ -135,6 +135,11 @@ const Tabla_Producto = () => {
                   onPress={() => confirmDelete(item.ID_Producto_PK)}
                 />
               </View>
+              <EditProducto
+                isOpen={isModalOpenEdit}
+                closeModal={closeModal}
+                reConsulta={consulta}
+              />
             </View>
           )}
         />

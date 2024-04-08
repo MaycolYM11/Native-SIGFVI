@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { BUSCAR_DEUDORES } from '../../Funciones/deudor';
+import { BUSCAR_DEUDORES, BUSCAR_DEUDORES_PERSONALIZADO } from '../../Funciones/deudor';
 
 const DeudoresHome = () => {
   const [deudores, setDeudores] = useState([]);
   const navigation = useNavigation();
+  const [busqueda, setBusqueda] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,28 +20,36 @@ const DeudoresHome = () => {
 
   console.log('Esto me trae los deudores: ', deudores);
 
-  const handleVolver = () => {
-    // Tu lógica para volver
+
+  const busquedaPersonalizada = async () => {
+    try {
+      if (busqueda.trim() === '') {
+        const data = await BUSCAR_DEUDORES();
+        setDeudores(data);
+      } else {
+        const data = await BUSCAR_DEUDORES_PERSONALIZADO(busqueda, busqueda, busqueda);
+        setDeudores(data);
+      }
+    } catch (error) {
+      console.error('Error al buscar deudores:', error);
+      setDeudores([]);
+    }
   };
+  
+
+  const actualizarDeudores = async () => {
+    try {
+      const data = await BUSCAR_DEUDORES();
+      setDeudores(data);
+    } catch (error) {
+      console.error('Error al actualizar los deudores:', error);
+    }
+  };
+
+  const handleVolver = async () => {}
 
   const handleEditarDeudor = (deudor) => {
-    navigation.navigate('EditarDeudor', { deudor });
-  };
-
-  const getColorStyle = (estado) => {
-    if (estado === 'activo') {
-      return {
-        color: 'white',
-        backgroundColor: 'green',
-        padding: 5,
-      };
-    } else if (estado === 'inactivo') {
-      return {
-        color: 'white',
-        backgroundColor: 'red',
-        padding: 5,
-      };
-    }
+    navigation.navigate('EditarDeudor', { deudor, consulta: actualizarDeudores });
   };
 
 
@@ -54,13 +64,19 @@ const DeudoresHome = () => {
           <Text style={{ marginBottom: 10 }}>En este panel es el encargado de gestionar los Deudores.</Text>
           <View>
             <TextInput
-              placeholder="Buscar productos"
+              placeholder="Buscar Deudor por ID o Nombre."
               style={styles.searchInput}
+              onChangeText={(text) => setBusqueda(text)}
+              value={busqueda}
             />
-            <Button title="Buscar" />
+            <TouchableOpacity onPress={busquedaPersonalizada}>
+              <Text style={styles.buscarDeudor}>Buscar Deudor</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.containerButton}>
-            <Button title="Agregar Producto" />
+            <TouchableOpacity onPress={handleVolver}>
+              <Text style={styles.volverText}>Agregar Deudor</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.BarMini2}></View>
         </View>
@@ -139,12 +155,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#06185c',
   },
+  buscarDeudor: {
+    padding: 10,
+    fontSize: 16,
+    color: '#ffffff',
+    borderRadius: 10,
+    backgroundColor: '#2391ef',
+    textAlign: 'center',
+  },
   volverText: {
     padding: 10,
     fontSize: 16,
-    color: '#f5ebe0',
+    color: '#ffffff',
     borderRadius: 10,
     backgroundColor: '#ff9414',
+    textAlign: 'center'
   },
   card: {
     backgroundColor: '#fff',
