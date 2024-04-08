@@ -35,7 +35,11 @@ const DeudoresHome = () => {
       setDeudores([]);
     }
   };
-  
+
+
+  const irRegistrar = () => {
+    navigation.navigate('Register', { consulta: actualizarDeudores })
+  }
 
   const actualizarDeudores = async () => {
     try {
@@ -46,7 +50,7 @@ const DeudoresHome = () => {
     }
   };
 
-  const handleVolver = async () => {}
+  const handleVolver = async () => { }
 
   const handleEditarDeudor = (deudor) => {
     navigation.navigate('EditarDeudor', { deudor, consulta: actualizarDeudores });
@@ -54,53 +58,58 @@ const DeudoresHome = () => {
 
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.header2}>
-          <Text style={styles.headerText}>Deudores<Text style={styles.TextNaranja}>.</Text></Text>
-          <View style={styles.BarMini2}></View>
-        </View>
-        <View style={styles.containerTop}>
-          <Text style={{ marginBottom: 10 }}>En este panel es el encargado de gestionar los Deudores.</Text>
-          <View>
-            <TextInput
-              placeholder="Buscar Deudor por ID o Nombre."
-              style={styles.searchInput}
-              onChangeText={(text) => setBusqueda(text)}
-              value={busqueda}
-            />
-            <TouchableOpacity onPress={busquedaPersonalizada}>
-              <Text style={styles.buscarDeudor}>Buscar Deudor</Text>
-            </TouchableOpacity>
+    <ScrollView style={styles.ScrollView}>
+      <View style={styles.container2}>
+        <View style={styles.container}>
+          <View style={styles.header2}>
+            <Text style={styles.headerText}>Deudores<Text style={styles.TextNaranja}>.</Text></Text>
+            <View style={styles.BarMini2}></View>
           </View>
-          <View style={styles.containerButton}>
-            <TouchableOpacity onPress={handleVolver}>
-              <Text style={styles.volverText}>Agregar Deudor</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.BarMini2}></View>
-        </View>
-        {deudores.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.card} onPress={() => handleEditarDeudor(item)}>
-            <View style={styles.containerEstados}>
-              <Text style={styles.TextTittle}>ID: <Text style={styles.TextNaranja}>{item.id}</Text></Text>
-              <View>
-                {/* <Text style={styles.TextTittle2}>Estado:</Text> */}
-                <Text style={[styles.estado, item.estado == 'Activo' ? styles.activo : styles.inactivo]}>
-                  {item.estado}
-                </Text>
-              </View>
+          <View style={styles.containerTop}>
+            <Text style={{ marginBottom: 10 }}>En este panel es el encargado de gestionar los Deudores.</Text>
+            <View>
+              <TextInput
+                placeholder="Buscar Deudor por ID o Nombre."
+                style={styles.searchInput}
+                onChangeText={(text) => setBusqueda(text)}
+                value={busqueda}
+              />
+              <TouchableOpacity onPress={busquedaPersonalizada}>
+                <Text style={styles.buscarDeudor}>Buscar Deudor</Text>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.TextTittle}>Nombres y Apellidos: <Text style={styles.NormalText}>{item.Primer_Nombre} {item.Segundo_Nombre} {item.Primer_Apellido} {item.Segundo_Apellido}</Text></Text>
-            <Text style={styles.TextTittle}>Dirección: <Text style={styles.NormalText}>{item.Direccion_Deudor}</Text></Text>
-            <Text style={styles.TextTittle}>Teléfono: <Text style={styles.NormalText}>{item.Telefono_Deudor}</Text></Text>
-            <Text style={styles.TextTittle}>Saldo: $<Text style={styles.NormalText}>{item.saldo}</Text></Text>
-          </TouchableOpacity>
-        ))}
-        <View style={styles.header2}>
-          <TouchableOpacity onPress={handleVolver}>
-            <Text style={styles.volverText}>Cerrar Sesión</Text>
-          </TouchableOpacity>
+            <View style={styles.containerButton}>
+              <TouchableOpacity onPress={irRegistrar}>
+                <Text style={styles.volverText}>Agregar Deudor</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.BarMini2}></View>
+          </View>
+          {deudores.map((item, index) => (
+            <TouchableOpacity key={index} style={styles.card} onPress={() => handleEditarDeudor(item)}>
+              <View style={styles.containerEstados}>
+                <Text style={styles.TextTittle}>ID: <Text style={styles.TextNaranja}>{item.id}</Text></Text>
+                <View>
+                  {/* <Text style={styles.TextTittle2}>Estado:</Text> */}
+                  <Text style={[styles.estado, item.estado == 'Activo' ? styles.activo : styles.inactivo]}>
+                    {item.estado}
+                  </Text>
+                </View>
+              </View>
+              <Text style={styles.TextTittle}>Nombres y Apellidos: <Text style={styles.NormalText}>{item.Primer_Nombre} {item.Segundo_Nombre} {item.Primer_Apellido} {item.Segundo_Apellido}</Text></Text>
+              <Text style={styles.TextTittle}>Dirección: <Text style={styles.NormalText}>{item.Direccion_Deudor}</Text></Text>
+              <Text style={styles.TextTittle}>Teléfono: <Text style={styles.NormalText}>{item.Telefono_Deudor}</Text></Text>
+              <Text style={styles.TextTittle}>Saldo: $<Text style={styles.NormalText}>{item.saldo}</Text></Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View style={stylesFooter.footer}>
+          <Text style={stylesFooter.footerText}>Gracias por utilizar nuestro sistema<Text style={styles.TextNaranja}>.</Text></Text>
+          <View style={styles.containerButton}>
+            <TouchableOpacity onPress={() => { navigation.navigate('Login') }}>
+              <Text style={stylesFooter.footerButton}>Cerrar Sesión</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -108,6 +117,9 @@ const DeudoresHome = () => {
 };
 
 const styles = StyleSheet.create({
+  ScrollView: {
+    backgroundColor: '#050d27',
+  },
   containerTop: {
     marginBottom: 10,
     width: '100%',
@@ -142,7 +154,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    // backgroundColor: '#f7f8fa',
+    backgroundColor: '#f2f2f2',
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
+  container2: {
+    backgroundColor: '#050d27',
   },
   header2: {
     display: 'flex',
@@ -150,10 +167,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 20,
   },
+  header3: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    width: '100%',
+    backgroundColor: 'grey',
+  },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#06185c',
+    textAlign: 'center',
   },
   buscarDeudor: {
     padding: 10,
@@ -218,6 +244,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#171824',
     marginTop: 10,
     marginBottom: 5,
+  },
+});
+
+const stylesFooter = StyleSheet.create({
+  footer: {
+    width: '100%',
+    marginTop: 5,
+    padding: 10,
+    backgroundColor: '#050d27',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  footerText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#fff',
+  },
+  footerButton: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+    backgroundColor: '#ff9414',
+    padding: 10,
+    paddingLeft: 120,
+    paddingRight: 120,
+    borderRadius: 10,
   },
 });
 
