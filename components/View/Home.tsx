@@ -25,9 +25,8 @@ const Tabla_Producto = () => {
   };
 
   const handleSaveProduct = (newProduct) => {
-    // Save the new product using an API call or other logic
-    console.log("New product saved:", newProduct);
-    // Hide the form after saving
+ 
+    console.log("Nuevo Producto:", newProduct);
     setIsFormAgregarVisible(false);
   };
 
