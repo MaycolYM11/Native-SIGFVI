@@ -58,7 +58,7 @@ const DeudoresHome = () => {
 
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.ScrollView}>
       <View style={styles.container2}>
         <View style={styles.container}>
           <View style={styles.header2}>
@@ -117,6 +117,9 @@ const DeudoresHome = () => {
 };
 
 const styles = StyleSheet.create({
+  ScrollView: {
+    backgroundColor: '#050d27',
+  },
   containerTop: {
     marginBottom: 10,
     width: '100%',
@@ -271,6 +274,6 @@ const stylesFooter = StyleSheet.create({
     paddingRight: 120,
     borderRadius: 10,
   },
-})
+});
 
 export default DeudoresHome;
