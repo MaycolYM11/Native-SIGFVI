@@ -80,17 +80,17 @@ export default function App() {
             style={styles.logoImage}
           />
           <Text style={styles.logoText}>
-            SIGFVI
+            Tiendecita Alemana
           </Text>
           <Text style={styles.logoText}>
-            Tiendecita Alemana
+            SIGFVI
           </Text>
         </View>
 
         <View style={styles.form} >
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>
-              Iniciar Sesión.<Text style={styles.subrayar}>.</Text>
+              Iniciar Sesión<Text style={styles.subrayar}>.</Text>
             </Text>
             <Text style={styles.subHeaderText}>
               inicie sesion con sus <Text style={styles.subrayarTexto}>credenciales.</Text>
@@ -102,7 +102,7 @@ export default function App() {
               style={styles.input}
               onChangeText={setUser}
               value={user}
-              placeholder="Enter your username"
+              placeholder="Ingrese su ID"
               placeholderTextColor="#375180"
             />
           </View>
@@ -113,7 +113,7 @@ export default function App() {
               onChangeText={setPass}
               value={pass}
               secureTextEntry
-              placeholder="Enter your password"
+              placeholder="Ingrese su Contraseña"
               placeholderTextColor="#375180"
             />
           </View>
@@ -211,13 +211,15 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 120,
     paddingRight: 120,
-    borderRadius: 10,
+    borderRadius: 50,
   },
   inputContainer: {
     marginBottom: 20,
-    backgroundColor: '#05102c',
+    backgroundColor: '#0b0d4b',
     borderRadius: 30,
     padding: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
   label: {
     color: '#f9871c',
@@ -229,16 +231,6 @@ const styles = StyleSheet.create({
   footerButtonContainer: {
     marginTop: 20,
     alignItems: 'center',
-  },
-  footerButton: {
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-    backgroundColor: '#ff9414',
-    padding: 10,
-    borderRadius: 10,
-    width: '100%',
   },
   headerContainer: {
     alignItems: 'center',
@@ -258,14 +250,5 @@ const styles = StyleSheet.create({
   },
   subrayarTexto: {
     color: '#f9871c',
-  },
-  input: {
-    color: '#375180',
-    backgroundColor: '#05102c',
-    borderRadius: 30,
-    padding: 10,
-    marginBottom: 10,
-    width: '100%',
-  },
-
+  }
 });
