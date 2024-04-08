@@ -16,7 +16,7 @@ export const BUSCAR_DEUDORES = async () => {
 export const ELIMINAR_DEUDOR = async (id, estado) => {
   try {
     console.log(`\nMe llega este id: ${id}, a la función para ELIMINAR_DEUDOR.`);
-    console.log(`Me esta llegando este estado: ${estado}, a la función para ELIMINAR_DEUDOR.\n`);
+    console.log(`\nMe esta llegando este estado: ${estado}, a la función para ELIMINAR_DEUDOR.\n`);
     const respuesta = await axios.put(`http://${IP}:3001/usuario/cambiarestado/${id}`, { state: estado });
     return respuesta.data;
   } catch (error) {
