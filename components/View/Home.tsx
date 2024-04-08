@@ -11,72 +11,24 @@ import {
   StyleSheet,
 } from "react-native";
 import axios from "axios";
-import RegisterProd from "../modal/agregar";
-import EditProducto from "../modal/editar";
+import AgregarProducto from "../modal/agregar";
+import useConsultaProductos from "../funciones/Consulta";
 
 const Tabla_Producto = () => {
-  const [datos, setDatos] = useState([]);
-  const [searchId, setSearchId] = useState("");
-  const [registerform, setRegisterform] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const { datos, searchId, setSearchId, handleSearch, handleDelete } =
+    useConsultaProductos();
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const [isFormAgregarVisible, setIsFormAgregarVisible] = useState(false);
+
+  const handleAddProduct = () => {
+    setIsFormAgregarVisible(true);
   };
 
-  const openModalEdit = (item) => {
-    setSelectedItem(item); 
-    navigation.navigate('EditarProducto', { item });
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSearch = () => {
-    if (searchId.trim() !== "") {
-      axios
-        .get(`http://192.168.1.4:3001/producto/BuscarDatoPorId/${searchId}`)
-        .then((response) => {
-          setDatos(response.data.datos ? response.data.datos : []);
-        })
-        .catch((error) => {
-          console.error("Error al buscar el dato:", error);
-        });
-    } else {
-      consulta();
-    }
-  };
-
-  const consulta = () => {
-    axios
-      .get("http://192.168.1.4:3001/producto/Datos")
-      .then((response) => {
-        console.log("Datos recibidos:", response.data.datos);
-        setDatos(response.data.datos);
-      })
-      .catch((error) => {
-        console.error("Error al obtener datos:", error);
-      });
-  };
-
-  useEffect(() => {
-    console.log("Realizando solicitud...");
-    consulta();
-  }, []);
-
-  const confirmDelete = (id) => {
-    axios
-      .delete(`http://192.168.1.4:3001/producto/BorrarDatos/${id}`)
-      .then(() => {
-        console.log("Dato eliminado correctamente");
-        consulta();
-      })
-      .catch((error) => {
-        console.error("Error al borrar el inventario:", error);
-      });
+  const handleSaveProduct = (newProduct) => {
+    // Save the new product using an API call or other logic
+    console.log("New product saved:", newProduct);
+    // Hide the form after saving
+    setIsFormAgregarVisible(false);
   };
 
   return (
@@ -95,14 +47,11 @@ const Tabla_Producto = () => {
           <Button title="Buscar" onPress={handleSearch} />
         </View>
         <View>
-          <Button title="Agregar Producto" onPress={openModal} />
-          <RegisterProd
-            isOpen={isModalOpen}
-            closeModal={closeModal}
-            reConsulta={consulta}
-          />
+          <Button title="Agregar Producto" onPress={handleAddProduct} />
         </View>
       </View>
+      {isFormAgregarVisible && <AgregarProducto onSave={handleSaveProduct} />}
+
       <View>
         <FlatList
           data={datos}
@@ -127,17 +76,12 @@ const Tabla_Producto = () => {
                   marginTop: 10,
                 }}
               >
-                <Button title="Editar" onPress={() => openModalEdit(item)} />
+                <Button title="Editar" />
                 <Button
                   title="Borrar"
-                  onPress={() => confirmDelete(item.ID_Producto_PK)}
+                  onPress={() => handleDelete(item.ID_Producto_PK)}
                 />
               </View>
-              <EditProducto
-                isOpen={isModalOpenEdit}
-                closeModal={closeModal}
-                reConsulta={consulta}
-              />
             </View>
           )}
         />

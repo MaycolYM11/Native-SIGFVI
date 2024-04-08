@@ -17,7 +17,7 @@ const EditProducto = ({ isOpen, closeModal, datos }) => {
   const [estado, setEstado] = useState(datos.Estado || "");
 
   const editarRegistro = async (id) => {
-    // Tu lógica de actualización aquí
+    
   };
 
   const handleSubmit = () => {
