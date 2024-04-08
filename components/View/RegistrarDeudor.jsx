@@ -12,7 +12,7 @@ const RegisterDeudor = ({ route }) => {
 
   const agregarRegistro = () => {
     try {
-      axios.post("http://192.168.0.15:3001/usuario/createdeudor", {
+      axios.post("http://192.168.0.6:3001/usuario/createdeudor", {
         "id": id,
         "name1": name1,
         "name2": name2,
