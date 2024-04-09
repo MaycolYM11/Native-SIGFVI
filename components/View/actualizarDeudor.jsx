@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { ALERT_TYPE, AlertNotificationRoot, Dialog, Toast } from 'react-native-alert-notification';
 import axios from 'axios';
@@ -24,25 +24,28 @@ const EditarDeudor = ({ route }) => {
     const [estado, setEstado] = useState(deudor.estado);
     const [saldo, setSaldo] = useState(deudor.saldo);
     
+    const textoBoton = estado === 'Activo' ? 'Desactivar' : 'Activar';
+    const estiloBoton = estado === 'Activo' ? styles.buttonEliminar : styles.buttonActivar;
+
     console.log('Id del deudor seleccionado: ', idDeudor);
 
-    const handleGuardarCambios = async() => {
+    const handleGuardarCambios = async () => {
         try {
             // console.log(datos.idEstado);
-            await axios.put(`http://192.168.0.15:3001/usuario/updatedeudor/${idDeudor}`,{
-                name1:primerNombre,
-                name2:segundoNombre,
-                lastname1:primerApellido,
-                lastname2:segundoApellido,
-                address:direccion,
-                tel:telefono,
-            }).then(()=>{
+            await axios.put(`http://192.168.0.15:3001/usuario/updatedeudor/${idDeudor}`, {
+                name1: primerNombre,
+                name2: segundoNombre,
+                lastname1: primerApellido,
+                lastname2: segundoApellido,
+                address: direccion,
+                tel: telefono,
+            }).then(() => {
                 Dialog.show({
                     type: ALERT_TYPE.SUCCESS,
                     title: `¡Actualizado con éxito!`,
                     textBody: `Cambios Actualizados correctamente para ${primerNombre} ${primerApellido}.`,
                     autoClose: false,
-                    onHide: () => {navigation.navigate('Home');consulta();},
+                    onHide: () => { navigation.navigate('Home'); consulta(); },
                     button: 'OK'
                 });
                 console.log('Guardando cambios...');
@@ -50,48 +53,65 @@ const EditarDeudor = ({ route }) => {
             });
         } catch (error) {
             console.error(`no se pudo hacer la actualizacion ${error}`);
-        }        
+        }
     };
 
     const handleEliminar = async () => {
+        let nuevoEstado =  0;
+        if (estado === 'Activo') {
+            nuevoEstado = 0;
+        } else {
+            nuevoEstado = 1;            
+        }
+   
+        let accion =  '';
+        if (estado === 'Activo') {
+            accion =  'Desactivar';
+        } else {
+            accion = 'Activar';            
+        }
+
         Alert.alert(
-          'Eliminar deudor',
-          '¿Estás seguro de que deseas eliminar este deudor?',
-          [
-            {
-              text: 'Cancelar',
-              style: 'cancel'
-            },
-            {
-              text: 'Desactivar',
-              onPress: async () => {
-                try {
-                  await ELIMINAR_DEUDOR(idDeudor);
-                  Dialog.show({
-                    type: ALERT_TYPE.SUCCESS,
-                    title: `Desactivación`,
-                    textBody: 'Datos Desactivados exitosamente',
-                    autoClose: false,
-                    onHide: ()=>{consulta();navigation.navigate('Home');},
-                    button: 'Ok'
-                  })                      
-                } catch (error) {
-                    Dialog.show({
-                        type: ALERT_TYPE.DANGER,
-                        title: `Desactivación`,
-                        textBody: 'Ha ocurrido un error al intentar eliminar el deudor.',
-                        autoClose: false,
-                        onHide: ()=>{consulta();navigation.navigate('Home');},
-                        button: 'Ok'
-                    })    
-                  console.error('Error al eliminar el deudor:', error);
+            `${accion} deudor`,
+            `¿Estás seguro de que deseas ${accion.toLowerCase()} este deudor?`,
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                },
+                {
+                    text: accion,
+                    onPress: async () => {
+                        try {
+                            await ELIMINAR_DEUDOR(idDeudor, nuevoEstado);
+                            Dialog.show({
+                                type: ALERT_TYPE.SUCCESS,
+                                title: `${accion}`,
+                                textBody: `Datos ${accion.toLowerCase()} exitosamente`,
+                                autoClose: false,
+                                onHide: () => { consulta(); navigation.navigate('Home'); },
+                                button: 'Ok'
+                            })
+                        } catch (error) {
+                            Dialog.show({
+                                type: ALERT_TYPE.DANGER,
+                                title: `${accion}`,
+                                textBody: `Ha ocurrido un error al intentar ${accion.toLowerCase()} el deudor.`,
+                                autoClose: false,
+                                onHide: () => { consulta(); navigation.navigate('Home'); },
+                                button: 'Ok'
+                            })
+                            console.error(`Error al ${accion.toLowerCase()} el deudor:`, error);
+                        }
+                    }
                 }
-              }
-            }
-          ]
+            ]
         );
-      };
+    };
+    
       
+
+
     return (
         <AlertNotificationRoot>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -139,13 +159,16 @@ const EditarDeudor = ({ route }) => {
                             onChangeText={setTelefono}
                             placeholder="Teléfono"
                         />
-                        {/*<Text style={styles.textEstilo}>Estado</Text>
+                        <Text style={styles.textEstilo}>Estado</Text>
                         <TextInput
                             style={styles.input}
                             value={estado}
                             onChangeText={setEstado}
                             placeholder="Estado"
+                            editable={false}
+
                         />
+                        {/*
                         <Text style={styles.textEstilo}>Saldo</Text>
                         <TextInput
                             style={styles.input}
@@ -155,8 +178,8 @@ const EditarDeudor = ({ route }) => {
                         />*/}
                     </View>
                     <View style={styles.ContainerButtonsAbajo}>
-                        <TouchableOpacity style={styles.buttonEliminar} onPress={handleEliminar}>
-                            <Text style={styles.buttonText}>Desactivar</Text>
+                        <TouchableOpacity style={estiloBoton} onPress={handleEliminar}>
+                            <Text style={styles.buttonText}>{textoBoton}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonGuardar} onPress={handleGuardarCambios}>
                             <Text style={styles.buttonText}>Guardar Cambios</Text>
@@ -205,6 +228,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         flexDirection: 'row',
+    },
+    buttonActivar: {
+        flex: 1,
+        backgroundColor: '#2391ef',
+        paddingVertical: 20,
+        paddingHorizontal: 20,
     },
     buttonEliminar: {
         flex: 1,

@@ -18,7 +18,7 @@ function App() {
       <Stack.Navigator 
         initialRouteName='Login'
       >
-        <Stack.Screen name='Login' component={Login} />
+        <Stack.Screen name='Login' component={Login} options={{headerShown: false}}/>
         <Stack.Screen name='Home' component={HomeDeudores} />
         <Stack.Screen name='EditarDeudor' component={EditarDeudor} />
         <Stack.Screen name='Register' component={RegisterDeudor} />
