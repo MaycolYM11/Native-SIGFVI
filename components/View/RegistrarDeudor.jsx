@@ -24,7 +24,7 @@ const RegisterDeudor = ({ route }) => {
       }).then(()=>{
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
-            title: `Edición`,
+            title: `Registro`,
             textBody: 'Datos Agregados exitosamente',
             autoClose: 5000,
             onHide: ()=>{consulta();navigation.navigate('Home');},
@@ -36,85 +36,249 @@ const RegisterDeudor = ({ route }) => {
   }
 
   const [id, setId] = useState('');
+  const [idError, setIdError] = useState('');
   const [name1, setName1] = useState('');
+  const [name1Error, setName1Error] = useState('');
   const [name2, setName2] = useState('');
+  const [name2Error, setName2Error] = useState('');
   const [lastname1, setLastname1] = useState('');
+  const [lastname1Error, setLastname1Error] = useState('');
   const [lastname2, setLastname2] = useState('');
+  const [lastname2Error, setLastname2Error] = useState('');
   const [address, setAddress] = useState('');
+  const [addressError, setAddressError] = useState('');
   const [tel, setTel] = useState('');
+  const [telError, setTelError] = useState('');
   const [saldo, setSaldo] = useState('');
+  const [saldoError, setSaldoError] = useState('');
+
+
+  const validarId = () => {
+    if (!id.trim()) {
+      setIdError('Este espacio no puede quedar en blanco');
+      return false;
+    } else if (!/^\d+$/.test(id)) {
+      setIdError('Digitar solo números');
+      return false;
+    } else {
+      setIdError('');
+      return true;
+    }
+  }
+  const validarNombre1 = () => {
+    if (!name1.trim()) {
+      setName1Error('Este espacio no puede quedar en blanco');
+      return false;
+    } else if (!/^[A-Za-zÁÉÍÓÚÑáéíóúü\s]+$/.test(name1)) {
+      setName1Error('Digitar solo letras');
+      return false;
+    } else {
+      setName1Error('');
+      return true;
+    }
+  };
+
+  const validarNombre2 = () => {
+    if (!name2.trim()) {
+      setName2Error('Este espacio no puede quedar en blanco');
+      return false;
+    } else if (!/^[A-Za-zÁÉÍÓÚÑáéíóúü\s]+$/.test(name2)) {
+      setName2Error('Digitar solo letras');
+      return false;
+    } else {
+      setName2Error('');
+      return true;
+    }
+  };
+  
+  const validarApellido1 = () => {
+    if (!lastname1.trim()) {
+      setLastname1Error('Este espacio no puede quedar en blanco');
+      return false;
+    } else if (!/^[A-Za-zÁÉÍÓÚÑáéíóúü\s]+$/.test(lastname1)) {
+      setLastname1Error('Digitar solo letras');
+      return false;
+    } else {!/^[A-Za-zÁÉÍÓÚÑáéíóúü\s]+$/
+      setLastname1Error('');
+      return true;
+    }
+  }
+
+  const validarApellido2 = () => {
+    if (!lastname2.trim()) {
+      setLastname2Error('Este espacio no puede quedar en blanco');
+      return false;
+    } else if (!/^[A-Za-zÁÉÍÓÚÑáéíóúü\s]+$/.test(lastname2)) {
+      setLastname2Error('Digitar solo letras');
+      return false;
+    } else {
+      setLastname2Error('');
+      return true;
+    }
+  };
+
+  const validarDireccion = () => {
+    if (!address.trim()) {
+      setAddressError('Este espacio no puede quedar en blanco');
+      return false;
+    } else {
+      setAddressError('');
+      return true;
+    }
+  };
+
+  const validarTelefono = () => {
+    if (!tel.trim()) {
+      setTelError('Este espacio no puede quedar en blanco');
+      return false;
+    } else if (!/^\d+$/.test(tel)) {
+      setTelError('Digitar solo números');
+      return false;
+    } else {
+      setTelError('');
+      return true;
+    }
+  };
+
+  const validarSaldo = () => {
+    if (!saldo.trim()) {
+      setSaldoError('Este espacio no puede quedar en blanco');
+      return false;
+    } else if (!/^\d+(\.\d+)?$/.test(saldo)) {
+      setSaldoError('Ingrese un valor numérico válido');
+      return false;
+    } else {
+      setSaldoError('');
+      return true;
+    }
+  };
+
+  const verificarRegistro = () => {
+    let con = true;
+
+    if (!validarId()){
+      con = false;
+    }
+    if (!validarNombre1()) {
+      con = false;
+    }
+    if (!validarNombre2()) {
+      con = false;
+    }
+    if (!validarApellido1()) {
+      con = false;
+    }
+    if (!validarApellido2()) {
+      con = false;
+    }
+    if (!validarDireccion()) {
+      con = false;
+    }
+    if (!validarTelefono()) {
+      con = false;
+    }
+    if (!validarSaldo()) {
+      con = false;
+    }
+
+    if (con) {
+      agregarRegistro();
+    } else {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: 'Rellene los campos del formulario para continuar',
+      });
+    }
+  }
 
   return (
     <AlertNotificationRoot>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           <View style={styles.containerInputs}>
-            <Text style={styles.textEstilo}>Primer nombre</Text>
+          <Text style={styles.textEstilo}>Ingresa tu identificación</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="ID"
+              onChangeText={text => setId(text)}
+              value={id}
+            />
+            {idError ? <Text style={styles.errorText}>{idError}</Text> : null}
+          
+          <Text style={styles.textEstilo}>Primer nombre</Text>
             <TextInput
               style={styles.input}
               placeholder="name1"
-              onChangeText={setName1}
+              onChangeText={text => setName1(text)}
+              onBlur={validarNombre1}
               value={name1}
             />
-            
+            {name1Error ? <Text style={styles.errorText}>{name1Error}</Text> : null}
+
             <Text style={styles.textEstilo}>Segundo nombre</Text>
             <TextInput
               style={styles.input}
               placeholder="name2"
-              onChangeText={setName2}
+              onChangeText={text => setName2(text)}
+              onBlur={validarNombre2}
               value={name2}
             />
+            {name2Error ? <Text style={styles.errorText}>{name2Error}</Text> : null}
 
             <Text style={styles.textEstilo}>Primer apellido</Text>
             <TextInput
               style={styles.input}
               placeholder="lastname1"
-              onChangeText={setLastname1}
+              onChangeText={text => setLastname1(text)}
+              onBlur={validarApellido1}
               value={lastname1}
             />
+            {lastname1Error ? <Text style={styles.errorText}>{lastname1Error}</Text> : null}
 
             <Text style={styles.textEstilo}>Segundo apellido</Text>
             <TextInput
               style={styles.input}
               placeholder="lastname2"
-              onChangeText={setLastname2}
+              onChangeText={text => setLastname2(text)}
+              onBlur={validarApellido2}
               value={lastname2}
             />
+            {lastname2Error ? <Text style={styles.errorText}>{lastname2Error}</Text> : null}
 
-            <Text style={styles.textEstilo}>Ingresa tu identificacion</Text>
+            <Text style={styles.textEstilo}>Dirección</Text>
             <TextInput
               style={styles.input}
-              placeholder="ID"
-              onChangeText={setId}
-              value={id}
-            />
-
-            <Text style={styles.textEstilo}>Direccion</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Address"
-              onChangeText={setAddress}
+              placeholder="address"
+              onChangeText={text => setAddress(text)}
+              onBlur={validarDireccion}
               value={address}
             />
+            {addressError ? <Text style={styles.errorText}>{addressError}</Text> : null}
 
-            <Text style={styles.textEstilo}>Telefono</Text>
+            <Text style={styles.textEstilo}>Teléfono</Text>
             <TextInput
               style={styles.input}
               placeholder="tel"
-              onChangeText={setTel}
+              onChangeText={text => setTel(text)}
+              onBlur={validarTelefono}
               value={tel}
+              keyboardType='numeric'
             />
+            {telError ? <Text style={styles.errorText}>{telError}</Text> : null}
 
             <Text style={styles.textEstilo}>Saldo</Text>
             <TextInput
               style={styles.input}
               placeholder="saldo"
-              onChangeText={setSaldo}
+              onChangeText={text => setSaldo(text)}
+              onBlur={validarSaldo}
               value={saldo}
+              keyboardType='numeric'
             />
+            {saldoError ? <Text style={styles.errorText}>{saldoError}</Text> : null}
           </View>
           <View>
-          <TouchableOpacity style={styles.buttonGuardar} onPress={agregarRegistro}>
+          <TouchableOpacity style={styles.buttonGuardar} onPress={verificarRegistro}>
             <Text style={styles.buttonText}>Registrarse</Text>
           </TouchableOpacity>
           </View>
@@ -179,6 +343,10 @@ const styles = StyleSheet.create({
       color: '#f5ebe0',
       fontSize: 16,
       textAlign: 'center',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
   },
 });
 

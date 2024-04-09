@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const IP = process.env.IP_GLOBAL || '192.168.0.6';
+const IP = process.env.IP_GLOBAL || '192.168.0.15';
 
 
 export const BUSCAR_DEUDORES = async () => {
